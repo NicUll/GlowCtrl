@@ -46,6 +46,9 @@ int but13;
 int incPage;
 int decPage;
 
+//Clear Slide Values
+int clearSlide;
+
 //Chases RGB
 int cha1;
 int cha2;
@@ -103,18 +106,17 @@ int miniLaser;
 int UVBar;
 
 //Måste ändras om antal chase ändras
-#define MAX_CHASES 30
+#define MAX_CHASES 36
 #define MAX_CHASE_IN_GROUP 12
 #define CHASE_GROUPS 4
 
 //Antal knappar per sida
-#define BUTTONS_PER_PAGE 50
+#define BUTTONS_PER_PAGE 60
 #define PAGES 2
 
 int active_chases[CHASE_GROUPS] = {}; //Sparar aktuell chase för varje grupp
 int chase_number[CHASE_GROUPS] = {}; //Vilken chase som är aktuellt per grupp för att skicka
 
-int chase_setup_place = 0; //Variabel för att öka index i chases
 int master_setup_place = 0; //variabel för att öka index i chase_master
 
 int chase_groups[CHASE_GROUPS][MAX_CHASE_IN_GROUP] = {}; //Håller varje grupp med chasear på var sin plats
@@ -174,7 +176,6 @@ int popChaseList(int xa, int ya, int xb, int yb, char label[], int place, int gr
   myButtons.disableButtonDraw(tempButton);
   chase_groups[group][place] = tempButton;
   chase_per_group[group] += 1;
-  chase_setup_place += 1;
   return tempButton;
 }
 
@@ -218,8 +219,11 @@ void buttonSetup() {
   incPage = myButtons.addButton(590, 358, 100, 100, "NEXT");
   page_buttons[current_page][7] = incPage;
 
+  clearSlide = myButtons.addButton(700, 358, 100, 100, "CLEAR SLIDE");
+  page_buttons[current_page][8] = clearSlide;
 
-  total_page_buttons[current_page] = 8;
+
+  total_page_buttons[current_page] = 9;
 
   //page 1
   current_page = 1;
@@ -240,13 +244,14 @@ void buttonSetup() {
   but11 = myButtons.addButton(590, 7, 200, 110, "FX");
   page_buttons[current_page][4] = but11;
 
-  but12 = myButtons.addButton(590, 124, 200, 110, "RINNANDE");
-  page_buttons[current_page][5] = but12;
+  but13 = myButtons.addButton(590, 124, 200, 110, "RINNANDE");
+  page_buttons[current_page][5] = but13;
+
+  clearSlide = myButtons.addButton(700, 358, 100, 100, "CLEAR \13 SLIDE");
+  page_buttons[current_page][6] = clearSlide;
 
 
-
-
-  total_page_buttons[current_page] = 6;
+  total_page_buttons[current_page] = 7;
 }
 
 void chaseButtonSetup() {
@@ -300,7 +305,7 @@ void relaySetup() {
   strobbStor = myRelays.addRelay(A1, but5, TOGGLE);
   strobbLiten = myRelays.addRelay(A2, but6, TOGGLE);
   UVTak = myRelays.addRelay(A3, but10, FULL_ON);
-  FX = myRelays.addRelay(A4, but11, FLASH);
+  FX = myRelays.addRelay(A4, but11, FULL_ON);
   RGBSpot = myRelays.addRelay(A5, but8, TOGGLE);
   miniLaser = myRelays.addRelay(A6, but7, TOGGLE);
   rinnande = myRelays.addRelay(A7, but4, TOGGLE);
@@ -374,12 +379,12 @@ void pageTwoPhys() {
   if (phys_button > 250) {
 
   }
-  else if (phys_button > 198) {
+  /*else if (phys_button > 198) {
     if (myButtons.buttonEnabled(but11)) {
       pressed = myButtons.checkButtons(true, but11);
       myButtons.disableButton(but11, true);
     }
-  }
+  }*/
   else if (phys_button > 164) {
     pressed = decPage;
   }
@@ -473,47 +478,47 @@ void updateChaseButtons() {
 void mainCheck() {
   //noInterrupts();
   //detachInterrupt(INTERRUPT_PIN);
-  Serial.println("mainCheck");
+  //Serial.println("mainCheck");
   for (int i = 0; i < CHASE_GROUPS; i++) {
-    Serial.println("itteration");
+    //Serial.println("itteration");
     if (pressed == chase_master[i]) {
-      Serial.println("1");
+      ////Serial.println("1");
       current_chase_group = i;
       if (current_chase_group == prev_chase_group) {
-        Serial.println("2");
+        //Serial.println("2");
         if (light_mode[i] % 2 == 0) {
-          Serial.println("3");
+          //Serial.println("3");
           chase_number[i] = 0;
           has_dmx = i + 1;
         }
         else {
-          Serial.println("4");
+          //Serial.println("4");
           has_dmx = 0;
         }
-        Serial.println("5");
+        //Serial.println("5");
         light_mode[i] = !light_mode[i];
       }
       else {
-        Serial.println("6");
+        //Serial.println("6");
         if (light_mode[i] % 2 == 0) {
-          Serial.println("7");
+          //Serial.println("7");
           has_dmx = 0;
         }
         else {
-          Serial.println("8");
+          //Serial.println("8");
           has_dmx = i + 1;
         }
       }
 
-      Serial.println("Innan wire");
+      //Serial.println("Innan wire");
       Wire.beginTransmission(4);
       Wire.write(has_dmx);
-      Serial.println("I wire");
+      //Serial.println("I wire");
       for (int x = 0; x < CHASE_GROUPS; x++) {
         Wire.write(chase_number[x]);
       }
       Wire.endTransmission();
-      Serial.println("Efter wire");
+      //Serial.println("Efter wire");
 
       enableChaseButtons();
       prev_chase_group = current_chase_group;
@@ -530,7 +535,7 @@ void mainCheck() {
           Wire.write(has_dmx);
           for (int i = 0; i < CHASE_GROUPS; i++) {
             Wire.write(chase_number[i]);
-            Serial.println(chase_number[i]);
+            //Serial.println(chase_number[i]);
           }
           Wire.endTransmission();
           active_chases[current_chase_group] = pressed;
@@ -542,16 +547,16 @@ void mainCheck() {
     }
   }
   if (pressed == incPage) {
-    Serial.println("ny sida start 1");
+    //Serial.println("ny sida start 1");
     prev_chase_group_p1 = current_chase_group;
     current_chase_group = prev_chase_group_p2;
     next_page = 1;
     pageSwitch();
     //enableChaseButtons();
-    Serial.println("ny sida klar 1");
+    //Serial.println("ny sida klar 1");
   }
   else if (pressed == decPage) {
-    Serial.println("ny sida start 2");
+    //Serial.println("ny sida start 2");
     prev_chase_group_p2 = current_chase_group;
     current_chase_group = prev_chase_group_p1;
     next_page = 0;
@@ -560,20 +565,21 @@ void mainCheck() {
     myGLCD.drawRoundRect(10, 7 + (117 * current_chase_group), 210, 117 + (117 * current_chase_group));
     myGLCD.drawRoundRect(9, 6 + (117 * current_chase_group), 211, 118 + (117 * current_chase_group));
     enableChaseButtons();
-    Serial.println("ny sida klar 2");
+    //Serial.println("ny sida klar 2");
   }
-  Serial.println("heejee");
+  //Serial.println("heejee");
   pressed = -1;
   /*while (analogRead(BUTT_PIN) != 0) {
   }*/
   //attachInterrupt(INTERRUPT_PIN, buttRead, LOW);
-  Serial.println("main chekkus KLAAR");
+  //Serial.println("main chekkus KLAAR");
   return;
   //interrupts();
 
 }
 
 void pageSwitch() {
+  //Serial.println("Page Switch");
   for (int i = 0; i < total_page_buttons[current_page]; i++) {
     myButtons.disableButtonDraw(page_buttons[current_page][i]);
   }
@@ -586,14 +592,17 @@ void pageSwitch() {
     myButtons.enableButtonDraw(page_buttons[next_page][i]);
   }
 
-  if (next_page == 1) {
+  /*if (next_page == 1) {
     myButtons.disableButton(but11);
-  }
+  }*/
 
   current_page = next_page;
+  //Serial.println("innan clear");
   myGLCD.clrScr();
+  //Serial.println("efter clear");
   myButtons.drawButtons();
   myButtons.drawAllButtonStatus();
+  //Serial.println("Page Switch Klar");
   return;
 }
 
@@ -654,9 +663,13 @@ void loop()
   myGLCD.drawRoundRect(9, 6 + (117 * current_chase_group), 211, 118 + (117 * current_chase_group));
   Serial.println("setup klar");
   while (1) {
-    if (myButtons.checkButtons() != -1) {
-      Serial.println("trykk");
-      pressed = myButtons.checkButtons();
+    pressed = myButtons.checkButtons();
+    if (pressed != -1) {
+      
+      
+      Serial.print("Knapp ");
+      Serial.print(pressed);
+      Serial.println(" tryckt");
       while (myButtons.checkButtons() != -1) {
 
       }
