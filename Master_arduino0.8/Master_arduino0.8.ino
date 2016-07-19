@@ -33,12 +33,14 @@ int but4;
 int but5;
 int but6;
 int but7;
+int but12;
 
 //Buttons page 2
 int but8;
 int but9;
 int but10;
 int but11;
+int but13;
 
 //Pagebuttons
 int incPage;
@@ -199,10 +201,10 @@ void buttonSetup() {
   page_buttons[current_page][1] = but2;
   but3 = popChaseMaster(10, 241, 200, 110, "BOLLJEVEL");
   page_buttons[current_page][2] = but3;
-
+  but12 = popChaseMaster(10, 358, 200, 110, "LILA LIST");
+  page_buttons[current_page][3] = but12;
+  
   //add normal buttons
-  but4 = myButtons.addButton(10, 358, 200, 110, "RINNANDE");
-  page_buttons[current_page][3] = but4;
 
   but5 = myButtons.addButton(590, 7, 200, 110, "STROBB S");
   page_buttons[current_page][4] = but5;
@@ -238,10 +240,13 @@ void buttonSetup() {
   but11 = myButtons.addButton(590, 7, 200, 110, "FX");
   page_buttons[current_page][4] = but11;
 
+  but12 = myButtons.addButton(590, 124, 200, 110, "RINNANDE");
+  page_buttons[current_page][5] = but12;
 
 
 
-  total_page_buttons[current_page] = 5;
+
+  total_page_buttons[current_page] = 6;
 }
 
 void chaseButtonSetup() {
