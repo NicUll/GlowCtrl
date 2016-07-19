@@ -1,0 +1,6 @@
+SlidePot	KEYWORD1
+
+addSlide	KEYWORD2
+deleteSlide	KEYWORD2
+isSlideActive	KEYWORD2
+getSlideValue	KEYWORD2

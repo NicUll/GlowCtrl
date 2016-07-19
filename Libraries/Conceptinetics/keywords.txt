@@ -1,0 +1,7 @@
+DMX_Master	KEYWORD1
+
+enable	KEYWORD2
+disable	KEYWORD2
+setChannelValue	KEYWORD2
+setChannelRange	KEYWORD2
+

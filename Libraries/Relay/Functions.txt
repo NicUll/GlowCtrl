@@ -1,0 +1,18 @@
+Relay myRelay(int toggleTime); //Create new instance
+toggleTime: The time you need to push a toggle-button to turn it on fully
+
+
+int name = myRelays.addRelay(pin, button, function); //Tie relay to button
+pin: Which relay on the board (the pin on the Arduino)
+button: Which button to link to
+function: Either FLASH, FULL_ON, TOGGLE
+
+myRelay.relaySwitch(pressed);	//Switches the appropriate relay, void
+myRelay.deleteRelay(button);	//Inactivates the relay linked to the button, void
+isRelayActive(button);		//Check if relay is tied to button, returns boolean
+isRelayTurnedOn(button);	//Check if relay is currently outputting power, returns boolean
+relayFunction(button);		//Check the function of relay, returns int
+
+pressed: the pressed button
+
+UTFT_Buttons myButtons(&myGLCD, &myTouch, &myRelay); //Must be used
