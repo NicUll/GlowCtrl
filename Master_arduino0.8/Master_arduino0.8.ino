@@ -79,6 +79,14 @@ int cha27;
 int cha28;
 int cha29;
 int cha30;
+
+//Lila lister
+int cha31;
+int cha32;
+int cha33;
+int cha34;
+int cha35;
+int cha36;
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -95,7 +103,7 @@ int UVBar;
 //Måste ändras om antal chase ändras
 #define MAX_CHASES 30
 #define MAX_CHASE_IN_GROUP 12
-#define CHASE_GROUPS 3
+#define CHASE_GROUPS 4
 
 //Antal knappar per sida
 #define BUTTONS_PER_PAGE 50
@@ -273,6 +281,14 @@ void chaseButtonSetup() {
   cha28 = popChaseList(252, 127, 100, 100, "BOLL4", 3, 2);
   cha29 = popChaseList(362, 127, 100, 100, "BOLL5", 4, 2);
   cha30 = popChaseList(472, 127, 100, 100, "BOLL6", 5, 2);
+
+  //Chasegroup4
+  cha31 = popChaseList(252, 17, 100, 100, "LILA1", 0, 3);
+  cha32 = popChaseList(362, 17, 100, 100, "LILA2", 1, 3);
+  cha33 = popChaseList(472, 17, 100, 100, "LILA3", 2, 3);
+  cha34 = popChaseList(252, 127, 100, 100, "LILA4", 3, 3);
+  cha35 = popChaseList(362, 127, 100, 100, "LILA5", 4, 3);
+  cha36 = popChaseList(472, 127, 100, 100, "LILA6", 5, 3);
 }
 
 void relaySetup() {
