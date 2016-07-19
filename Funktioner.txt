@@ -1,0 +1,13 @@
+
+DMX:
+dmx_objekt.setChannelValue(kanal, värde); //ställ värdet på vald kanal
+
+
+SLIDERS:
+slide = slide_objekt.addSlide(nummer, pin, DMX); //sparar en slider med värdet "nummer" i integern slide, kopplar den till "Pin" och väljer om den ska styra DMX eller ej.
+
+deleteSlide(slide) //gör sliden inaktiv/ledig
+
+isSlideActive(slide) //Kollar om sliden finns eller ej
+
+getSlideValue(slide) //Läser av värdet på sliden
