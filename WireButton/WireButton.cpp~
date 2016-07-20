@@ -1,0 +1,64 @@
+	#include "Arduino.h"
+#include "WireButton.h"
+#include "Wire.h"
+
+
+
+
+WireButton::WireButton(unsigned long setToggleTime)
+{
+	for (int i = 0; i < MAX_WIREBUTTONS; i++){
+		wireButtons[i].active = false;
+		wireButtons[i].turned_on = false;
+	}
+	toggleTime = setToggleTime;
+}
+
+int WireButton::addWireButton(int armNum, int button, int function, word standardcolor, word altcolor)
+{
+	wireButtons[button].armNum = armNum;
+	wireButtons[button].active = true;
+	wireButtons[button].function = function;
+	wireButtons[button].turned_on = false;
+	wireButtons[button].altcolor = altcolor;
+	wireButtons[button].standardcolor = standardcolor;
+
+	return button;
+}
+
+void WireButton::deleteWireButton(int button)
+{
+	wireButtons[button].active = false;
+}
+
+void WireButton::wireButtonSwitch(int button)
+{
+	wireButtons[button].turned_on = !(wireButtons[button].turned_on);
+	//digitalWrite(wireButtons[button].pin, !wireButtons[button].turned_on);
+}
+
+
+boolean WireButton::isWireButtonActive(int button)
+{
+	return wireButtons[button].active;
+}
+
+boolean WireButton::isWireButtonTurnedOn(int button)
+{
+	return wireButtons[button].turned_on;
+}
+
+int WireButton::wireButtonFunction(int button)
+{
+	return wireButtons[button].function;
+}
+
+word WireButton::getAltColor(int button)
+{
+	return wireButtons[button].altcolor;
+}
+
+word WireButton::getStaColor(int button)
+{
+	return wireButtons[button].standardcolor;
+}

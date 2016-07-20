@@ -1,0 +1,19 @@
+WireButton myWireButton(int channel, int toggleTime); //Create new instance
+channel: The channel to communicate with wire on.
+toggleTime: The time you need to push a toggle-button to turn it on fully
+
+
+int name = myWireButtons.addWireButton(pin, button, function); //Tie relay to button
+pin: Which relay on the board (the pin on the Arduino)
+button: Which button to link to
+function: Either FLASH, FULL_ON, TOGGLE
+
+myWireButton.relaySwitch(pressed);	//Switches the appropriate relay, void
+myWireButton.deleteWireButton(button);	//Inactivates the relay linked to the button, void
+isWireButtonActive(button);		//Check if relay is tied to button, returns boolean
+isWireButtonTurnedOn(button);	//Check if relay is currently outputting power, returns boolean
+relayFunction(button);		//Check the function of relay, returns int
+
+pressed: the pressed button
+
+UTFT_Buttons myButtons(&myGLCD, &myTouch, &myWireButton); //Must be used
